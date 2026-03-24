@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challenge Monteur Pro — Data au 24/03</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;min-height:100vh;padding:2rem 1rem}
+.wrap{max-width:960px;margin:0 auto}
+h1{font-size:22px;font-weight:500;color:#1a1a18}
+p.sub{font-size:13px;color:#5f5e5a;margin-top:3px}
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px}
+.bdg{font-size:11px;padding:4px 10px;border-radius:8px;font-weight:500;display:inline-block}
+.bdg-r{background:#FCEBEB;color:#A32D2D}
+.bdg-w{background:#FAEEDA;color:#854F0B}
+.bdg-b{background:#E6F1FB;color:#185FA5}
+.bdg-g{background:#EAF3DE;color:#3B6D11}
+.sec{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.06em;margin:1.5rem 0 10px}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.mc{background:#fff;border-radius:8px;padding:14px;border:.5px solid rgba(0,0,0,.08)}
+.ml{font-size:12px;color:#5f5e5a;margin-bottom:5px;line-height:1.4}
+.mv{font-size:26px;font-weight:500;color:#1a1a18;line-height:1}
+.ms{font-size:11px;color:#888780;margin-top:4px}
+.mv-r{color:#A32D2D}.mv-w{color:#854F0B}.mv-g{color:#3B6D11}
+.card{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0}
+.ct{font-size:13px;font-weight:500;color:#1a1a18;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem}
+.br{display:flex;align-items:center;gap:7px;margin-bottom:7px;font-size:12px}
+.bl{width:120px;color:#5f5e5a;flex-shrink:0;text-align:right;line-height:1.3}
+.bt{flex:1;background:#f1efe8;border-radius:3px;height:18px;overflow:hidden}
+.bf{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px;font-size:11px;font-weight:500;min-width:4px}
+.bf-g{background:#C0DD97;color:#27500A}
+.bf-r{background:#F7C1C1;color:#791F1F}
+.bf-a{background:#FAC775;color:#633806}
+.bf-b{background:#B5D4F4;color:#0C447C}
+.bf-gr{background:#D3D1C7;color:#444441}
+.bf-t{background:#9FE1CB;color:#085041}
+.bv{width:28px;text-align:right;color:#888780;font-size:11px;flex-shrink:0}
+.pipeline{display:flex;align-items:stretch;flex-wrap:wrap;gap:0;margin:1rem 0 1.5rem}
+.ps{flex:1;min-width:70px;text-align:center}
+.pb{background:#f1efe8;border-radius:8px;padding:10px 6px;margin:0 3px;height:100%}
+.pb-b{background:#E6F1FB}.pb-g{background:#EAF3DE}.pb-r{background:#FCEBEB}.pb-w{background:#FAEEDA}
+.pn{font-size:20px;font-weight:500;color:#1a1a18}
+.pn-b{color:#185FA5}.pn-g{color:#3B6D11}.pn-r{color:#A32D2D}.pn-w{color:#854F0B}
+.pl{font-size:11px;color:#5f5e5a;margin-top:3px;line-height:1.3}
+.pr{font-size:10px;color:#888780;margin-top:2px;font-style:italic}
+.arr{font-size:14px;color:#888780;align-self:center;flex-shrink:0;padding:0 1px}
+.tgt{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.tgt-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.tgt-l{font-size:13px;color:#5f5e5a}
+.tgt-n{font-size:13px;color:#1a1a18}
+.ptr{background:#f1efe8;border:.5px solid rgba(0,0,0,.08);border-radius:6px;height:28px;overflow:hidden;position:relative}
+.pf{height:100%;background:#97C459;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:12px;font-weight:500;color:#27500A}
+.alert{border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:12px;border-left:3px solid;line-height:1.5}
+.al-r{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.al-w{background:#FAEEDA;border-color:#EF9F27;color:#633806}
+.al-b{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
+.al-t{font-weight:500;margin-bottom:3px}
+.sep{height:.5px;background:rgba(0,0,0,.08);margin:1.5rem 0}
+.noshow-box{background:#FCEBEB;border:.5px solid #F09595;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.noshow-box h3{font-size:13px;font-weight:500;color:#A32D2D;margin-bottom:10px}
+.noshow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.noshow-stat{text-align:center;background:#fff;border-radius:8px;padding:10px 8px}
+.noshow-num{font-size:22px;font-weight:500;color:#A32D2D}
+.noshow-lbl{font-size:11px;color:#791F1F;margin-top:3px;line-height:1.3}
+.qual-box{background:#FAEEDA;border:.5px solid #FAC775;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.qual-box h3{font-size:13px;font-weight:500;color:#633806;margin-bottom:6px}
+.qual-box p{font-size:12px;color:#854F0B;line-height:1.6}
+.qual-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:10px}
+.qual-stat{text-align:center;background:#fff;border-radius:8px;padding:10px 8px}
+.qual-num{font-size:20px;font-weight:500;color:#633806}
+.qual-lbl{font-size:11px;color:#854F0B;margin-top:3px;line-height:1.3}
+.sim-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end}
+.sim-group{display:flex;flex-direction:column;gap:5px}
+.sim-lbl{font-size:12px;color:#5f5e5a}
+.sim-inline{display:flex;align-items:center;gap:8px}
+input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:#d3d1c7;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#378ADD;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.sim-val{font-size:13px;color:#1a1a18;font-weight:500;min-width:36px}
+.sim-res{background:#f1efe8;border-radius:8px;padding:12px 14px;margin-top:8px;font-size:13px}
+.stamp{font-size:11px;color:#888780;text-align:center;margin-top:2rem;padding-top:1rem;border-top:.5px solid rgba(0,0,0,.06)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <div>
+    <h1>Challenge Monteur Pro — au 24/03</h1>
+    <p class="sub">Opt-ins Kombineo AccelMars · 7 closers · 3 setters actifs</p>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+    <span class="bdg bdg-r">–11 ventes pour l'objectif</span>
+    <span class="bdg bdg-w">Encaissé : –20k€ vs coms</span>
+  </div>
+</div>
+
+<div class="sec">Pipeline global — opt-in → vente</div>
+<div class="pipeline">
+  <div class="ps"><div class="pb pb-b"><div class="pn pn-b">2 478</div><div class="pl">Opt-ins totaux</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb pb-w"><div class="pn pn-w">753</div><div class="pl">Leads appelés</div><div class="pr">30,4% du pipe</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb"><div class="pn">74</div><div class="pl">RDV setting pris</div><div class="pr">9,8% des appelés</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb"><div class="pn">146</div><div class="pl">RDV closing pris</div><div class="pr">Challenge</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb pb-g"><div class="pn pn-g">10</div><div class="pl">Ventes totales</div><div class="pr">5,5% / RDV actifs</div></div></div>
+</div>
+
+<div class="sec">Objectif ventes (minimum 21)</div>
+<div class="tgt">
+  <div class="tgt-h">
+    <span class="tgt-l">Progression vers l'objectif</span>
+    <span class="tgt-n"><strong>10</strong> / 21 ventes — il manque <strong style="color:#A32D2D">11</strong></span>
+  </div>
+  <div class="ptr"><div class="pf" style="width:47.6%">10 ventes</div></div>
+</div>
+
+<div class="mg">
+  <div class="mc"><div class="ml">Opt-ins totaux</div><div class="mv">2 478</div><div class="ms">Source Kombineo</div></div>
+  <div class="mc"><div class="ml">Leads non appelés</div><div class="mv mv-r">1 177</div><div class="ms">47,5% du pipe intact</div></div>
+  <div class="mc"><div class="ml">Ventes confirmées</div><div class="mv mv-g">10</div><div class="ms">Kombineo corrigé</div></div>
+  <div class="mc"><div class="ml">Taux RDV → vente</div><div class="mv">5,5%</div><div class="ms">10 / 181 actifs</div></div>
+  <div class="mc"><div class="ml">RDV à venir (setting)</div><div class="mv mv-w">18</div><div class="ms">+ 71 FUP en cours</div></div>
+  <div class="mc"><div class="ml">Leads clôturés setting</div><div class="mv">497</div><div class="ms">Sur 753 appelés</div></div>
+</div>
+
+<div class="sec">No show — alerte</div>
+<div class="noshow-box">
+  <h3>No show : 53 RDV perdus après prise en charge</h3>
+  <div class="noshow-grid">
+    <div class="noshow-stat"><div class="noshow-num">25</div><div class="noshow-lbl">No show setting</div></div>
+    <div class="noshow-stat"><div class="noshow-num">28</div><div class="noshow-lbl">No show closing</div></div>
+    <div class="noshow-stat"><div class="noshow-num">53</div><div class="noshow-lbl">Total no show</div></div>
+    <div class="noshow-stat"><div class="noshow-num">29%</div><div class="noshow-lbl">Du total RDV (181)</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Détail closing (146 RDV challenge)</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Résultats RDV closing <span class="bdg bdg-g">10 ventes</span></div>
+    <div class="br"><div class="bl">Ventes</div><div class="bt"><div class="bf bf-g" style="width:6.8%">10</div></div><div class="bv">10</div></div>
+    <div class="br"><div class="bl">Lost – money</div><div class="bt"><div class="bf bf-r" style="width:19.2%">28</div></div><div class="bv">28</div></div>
+    <div class="br"><div class="bl">No show</div><div class="bt"><div class="bf bf-a" style="width:19.2%">28</div></div><div class="bv">28</div></div>
+    <div class="br"><div class="bl">Annulation</div><div class="bt"><div class="bf bf-a" style="width:17.8%">26</div></div><div class="bv">26</div></div>
+    <div class="br"><div class="bl">Lost – no objection</div><div class="bt"><div class="bf bf-gr" style="width:13.7%">20</div></div><div class="bv">20</div></div>
+    <div class="br"><div class="bl">Lost – need to think</div><div class="bt"><div class="bf bf-gr" style="width:6.8%">10</div></div><div class="bv">10</div></div>
+    <div class="br"><div class="bl">Lost – fear</div><div class="bt"><div class="bf bf-gr" style="width:3.4%">5</div></div><div class="bv">5</div></div>
+    <div class="br"><div class="bl">Lost – timing</div><div class="bt"><div class="bf bf-gr" style="width:2.1%">3</div></div><div class="bv">3</div></div>
+    <div class="br"><div class="bl">Lost – partner</div><div class="bt"><div class="bf bf-gr" style="width:1.4%">2</div></div><div class="bv">2</div></div>
+    <div class="br"><div class="bl">Reprogrammé</div><div class="bt"><div class="bf bf-b" style="width:4.1%">6</div></div><div class="bv">6</div></div>
+    <div class="br"><div class="bl">Non qualifié</div><div class="bt"><div class="bf bf-gr" style="width:2.7%">4</div></div><div class="bv">4</div></div>
+    <div class="br"><div class="bl">Annulés Calendly</div><div class="bt"><div class="bf bf-a" style="width:17.1%">25</div></div><div class="bv">25</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Objections money – détail <span class="bdg bdg-r">28 lost</span></div>
+    <div style="font-size:12px;color:#5f5e5a;margin-bottom:10px">Profils financièrement disqualifiés</div>
+    <div class="br"><div class="bl">Endetté</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Moins de 80€/compte</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Pas d'épargne</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Vit dans sa voiture</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Gros découvert</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">N'a pas l'argent</div><div class="bt"><div class="bf bf-a" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div style="margin-top:14px;font-size:12px;color:#5f5e5a">Objections no objection – 20 lost</div>
+    <div style="margin-top:8px">
+      <div class="br"><div class="bl">Veut faire l'immo</div><div class="bt"><div class="bf bf-gr" style="width:40%"></div></div><div class="bv">–</div></div>
+      <div class="br"><div class="bl">Pense que gratuit</div><div class="bt"><div class="bf bf-gr" style="width:40%"></div></div><div class="bv">–</div></div>
+      <div class="br"><div class="bl">Ne veut pas se former</div><div class="bt"><div class="bf bf-gr" style="width:40%"></div></div><div class="bv">–</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Détail setting (753 leads appelés)</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Résultats appels setting <span class="bdg bdg-w">753 leads</span></div>
+    <div class="br"><div class="bl">RDV refusé</div><div class="bt"><div class="bf bf-r" style="width:52.5%">395</div></div><div class="bv">395</div></div>
+    <div class="br"><div class="bl">Faux numéro</div><div class="bt"><div class="bf bf-gr" style="width:8.4%">63</div></div><div class="bv">63</div></div>
+    <div class="br"><div class="bl">Hors cible</div><div class="bt"><div class="bf bf-gr" style="width:5.2%">39</div></div><div class="bv">39</div></div>
+    <div class="br"><div class="bl">RDV pris</div><div class="bt"><div class="bf bf-t" style="width:9.8%">74</div></div><div class="bv">74</div></div>
+    <div class="br"><div class="bl">Leads restants</div><div class="bt"><div class="bf bf-b" style="width:100%">497 clôturés / 1 177 restants</div></div><div class="bv">–</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">RDV setting → clôturés closers <span class="bdg bdg-w">74 RDV</span></div>
+    <div class="br"><div class="bl">Ventes</div><div class="bt"><div class="bf bf-g" style="width:1%"></div></div><div class="bv">0</div></div>
+    <div class="br"><div class="bl">No show</div><div class="bt"><div class="bf bf-r" style="width:33.8%">25</div></div><div class="bv">25</div></div>
+    <div class="br"><div class="bl">Annulés</div><div class="bt"><div class="bf bf-a" style="width:16.2%">12</div></div><div class="bv">12</div></div>
+    <div class="br"><div class="bl">Reprogrammé</div><div class="bt"><div class="bf bf-b" style="width:13.5%">10</div></div><div class="bv">10</div></div>
+    <div class="br"><div class="bl">Faux numéro</div><div class="bt"><div class="bf bf-gr" style="width:8.1%">6</div></div><div class="bv">6</div></div>
+    <div class="br"><div class="bl">Non qualifié</div><div class="bt"><div class="bf bf-gr" style="width:5.4%">4</div></div><div class="bv">4</div></div>
+    <div class="br"><div class="bl">Hors cible</div><div class="bt"><div class="bf bf-gr" style="width:5.4%">4</div></div><div class="bv">4</div></div>
+    <div class="br"><div class="bl">Lost – money</div><div class="bt"><div class="bf bf-r" style="width:9.5%">7</div></div><div class="bv">7</div></div>
+    <div class="br"><div class="bl">Lost – partner</div><div class="bt"><div class="bf bf-gr" style="width:1.4%">1</div></div><div class="bv">1</div></div>
+    <div class="br"><div class="bl">Lost – no objection</div><div class="bt"><div class="bf bf-gr" style="width:1.4%">1</div></div><div class="bv">1</div></div>
+    <div class="br"><div class="bl">Lost – fear</div><div class="bt"><div class="bf bf-gr" style="width:1.4%">1</div></div><div class="bv">1</div></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:.5px solid rgba(0,0,0,.08);font-size:12px;color:#A32D2D;font-weight:500">0 vente sur 74 RDV setting clôturés</div>
+  </div>
+</div>
+
+<div class="sec">Qualité des RDV setting à venir (18 planifiés)</div>
+<div class="qual-box">
+  <h3>18 RDV à venir — tous issus du setting</h3>
+  <p>La qualité des RDV setting clôturés à date (0 vente, 25 no show, multiples annulations) laisse anticiper un rendement faible sur ces 18 prochains RDV si la dynamique ne change pas.</p>
+  <div class="qual-grid">
+    <div class="qual-stat"><div class="qual-num">18</div><div class="qual-lbl">RDV planifiés</div></div>
+    <div class="qual-stat"><div class="qual-num">71</div><div class="qual-lbl">FUP en cours</div></div>
+    <div class="qual-stat"><div class="qual-num">0%</div><div class="qual-lbl">Taux vente setting à date</div></div>
+    <div class="qual-stat"><div class="qual-num">34%</div><div class="qual-lbl">No show setting</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Alertes</div>
+<div class="alert al-r"><div class="al-t">1 177 leads jamais appelés sur 2 478 opt-ins</div>La consigne était d'appeler l'intégralité du pipe (~400/setter). Seuls 30,4% ont été contactés. C'est le levier principal restant — mais il nécessite que les setters livrent.</div>
+<div class="alert al-w"><div class="al-t">Règle non respectée par les setters</div>Un seul setter a potentiellement tenté de couvrir son pipe, mais raccrochait dès le décroché. Les 2 autres n'ont pas tenu la consigne.</div>
+<div class="alert al-b"><div class="al-t">Closing : leviers encore actifs</div>18 RDV planifiés + 71 FUP + 16 reprogrammés = 105 opportunités qualifiées à travailler. Taux de closing à 5,5% actuellement.</div>
+
+<div class="sep"></div>
+<div class="sec">Simulateur — ventes potentielles sur pipe restant</div>
+<div class="card">
+  <div class="ct">Estimation réaliste avec 3 setters</div>
+  <div class="sim-row">
+    <div class="sim-group">
+      <div class="sim-lbl">Leads restants à appeler</div>
+      <div class="sim-inline">
+        <input type="range" min="0" max="1177" value="1177" step="1" id="sL" style="width:160px">
+        <span class="sim-val" id="sLv">1 177</span>
+      </div>
+    </div>
+    <div class="sim-group">
+      <div class="sim-lbl">Taux prise de RDV (max réaliste 8%)</div>
+      <div class="sim-inline">
+        <input type="range" min="1" max="8" value="4" step="1" id="sR" style="width:130px">
+        <span class="sim-val" id="sRv">4%</span>
+      </div>
+    </div>
+    <div class="sim-group">
+      <div class="sim-lbl">Taux de closing (%)</div>
+      <div class="sim-inline">
+        <input type="range" min="1" max="20" value="6" step="1" id="sC" style="width:120px">
+        <span class="sim-val" id="sCv">6%</span>
+      </div>
+    </div>
+  </div>
+  <div class="sim-res">
+    <span style="color:#5f5e5a;font-size:12px">Estimation : </span>
+    <span id="sOut" style="font-size:17px;font-weight:500;color:#1a1a18"></span>
+    <span id="sTgt" style="font-size:12px;margin-left:8px"></span>
+  </div>
+</div>
+
+<div class="stamp">Challenge Monteur Pro · Données au 24 mars 2026 · Generé par Marion</div>
+
+</div>
+<script>
+function upd(){
+  var l=+document.getElementById('sL').value;
+  var r=+document.getElementById('sR').value/100;
+  var c=+document.getElementById('sC').value/100;
+  document.getElementById('sLv').textContent=l.toLocaleString('fr-FR');
+  document.getElementById('sRv').textContent=Math.round(r*100)+'%';
+  document.getElementById('sCv').textContent=Math.round(c*100)+'%';
+  var rdv=Math.round(l*r);
+  var v=Math.round(rdv*c);
+  document.getElementById('sOut').textContent=v+' ventes potentielles ('+rdv+' RDV)';
+  var tot=v+10;
+  var diff=21-tot;
+  var el=document.getElementById('sTgt');
+  if(diff<=0){el.textContent='→ Objectif 21 atteint ! ('+tot+' total)';el.style.color='#3B6D11';}
+  else{el.textContent='→ Total : '+tot+' ventes (encore '+diff+' à aller chercher)';el.style.color='#A32D2D';}
+}
+document.getElementById('sL').addEventListener('input',upd);
+document.getElementById('sR').addEventListener('input',upd);
+document.getElementById('sC').addEventListener('input',upd);
+upd();
+</script>
+</body>
+</html>
