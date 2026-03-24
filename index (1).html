@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monteur Pro — Dashboard Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;min-height:100vh;padding:2rem 1rem}
+.wrap{max-width:980px;margin:0 auto}
+.site-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px}
+.site-header h1{font-size:20px;font-weight:500;color:#1a1a18}
+.site-header p{font-size:12px;color:#5f5e5a;margin-top:3px}
+.tabs{display:flex;gap:0;border-bottom:1px solid rgba(0,0,0,.1);margin-bottom:1.5rem}
+.tab-btn{padding:10px 22px;font-size:13px;font-weight:500;border:none;cursor:pointer;border-bottom:2px solid transparent;background:transparent;color:#888780;transition:all .15s}
+.tab-btn.active{border-bottom-color:#1a1a18;color:#1a1a18}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.bdg{font-size:11px;padding:4px 10px;border-radius:8px;font-weight:500;display:inline-block}
+.bdg-r{background:#FCEBEB;color:#A32D2D}.bdg-w{background:#FAEEDA;color:#854F0B}.bdg-b{background:#E6F1FB;color:#185FA5}.bdg-g{background:#EAF3DE;color:#3B6D11}.bdg-gr{background:#F1EFE8;color:#444441}
+.sec{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.06em;margin:1.5rem 0 10px}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.mc{background:#fff;border-radius:8px;padding:14px;border:.5px solid rgba(0,0,0,.08)}
+.ml{font-size:12px;color:#5f5e5a;margin-bottom:5px;line-height:1.4}
+.mv{font-size:24px;font-weight:500;color:#1a1a18;line-height:1}
+.ms{font-size:11px;color:#888780;margin-top:4px}
+.mv-r{color:#A32D2D}.mv-w{color:#854F0B}.mv-g{color:#3B6D11}
+.card{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:12px;padding:1rem 1.25rem}
+.ct{font-size:13px;font-weight:500;color:#1a1a18;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem}
+.br{display:flex;align-items:center;gap:7px;margin-bottom:7px;font-size:12px}
+.bl{width:130px;color:#5f5e5a;flex-shrink:0;text-align:right;line-height:1.3;font-size:11px}
+.bt{flex:1;background:#f1efe8;border-radius:3px;height:18px;overflow:hidden}
+.bf{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px;font-size:11px;font-weight:500;min-width:4px}
+.bf-g{background:#C0DD97;color:#27500A}.bf-r{background:#F7C1C1;color:#791F1F}.bf-a{background:#FAC775;color:#633806}.bf-b{background:#B5D4F4;color:#0C447C}.bf-gr{background:#D3D1C7;color:#444441}.bf-t{background:#9FE1CB;color:#085041}.bf-p{background:#CECBF6;color:#3C3489}
+.bv{width:32px;text-align:right;color:#888780;font-size:11px;flex-shrink:0}
+.pipeline{display:flex;align-items:stretch;flex-wrap:wrap;gap:0;margin:1rem 0 1.5rem}
+.ps{flex:1;min-width:70px;text-align:center}
+.pb{background:#f1efe8;border-radius:8px;padding:10px 6px;margin:0 3px;height:100%}
+.pb-b{background:#E6F1FB}.pb-g{background:#EAF3DE}.pb-w{background:#FAEEDA}
+.pn{font-size:20px;font-weight:500;color:#1a1a18}
+.pn-b{color:#185FA5}.pn-g{color:#3B6D11}.pn-w{color:#854F0B}
+.pl{font-size:11px;color:#5f5e5a;margin-top:3px;line-height:1.3}
+.pr{font-size:10px;color:#888780;margin-top:2px;font-style:italic}
+.arr{font-size:14px;color:#888780;align-self:center;flex-shrink:0;padding:0 1px}
+.tgt{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.tgt-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.tgt-l{font-size:13px;color:#5f5e5a}.tgt-n{font-size:13px;color:#1a1a18}
+.ptr{background:#f1efe8;border:.5px solid rgba(0,0,0,.08);border-radius:6px;height:28px;overflow:hidden}
+.pf{height:100%;background:#97C459;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:12px;font-weight:500;color:#27500A}
+.alert{border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:12px;border-left:3px solid;line-height:1.6}
+.al-r{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}.al-w{background:#FAEEDA;border-color:#EF9F27;color:#633806}.al-b{background:#E6F1FB;border-color:#378ADD;color:#0C447C}.al-g{background:#EAF3DE;border-color:#639922;color:#27500A}
+.al-t{font-weight:500;margin-bottom:3px}
+.sep{height:.5px;background:rgba(0,0,0,.08);margin:1.5rem 0}
+.noshow-box{background:#FCEBEB;border:.5px solid #F09595;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.noshow-box h3{font-size:13px;font-weight:500;color:#A32D2D;margin-bottom:10px}
+.qual-box{background:#FAEEDA;border:.5px solid #FAC775;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.qual-box h3{font-size:13px;font-weight:500;color:#633806;margin-bottom:6px}
+.qual-box p{font-size:12px;color:#854F0B;line-height:1.6}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.stat-box{text-align:center;background:#fff;border-radius:8px;padding:10px 8px}
+.sim-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end}
+.sim-group{display:flex;flex-direction:column;gap:5px}
+.sim-lbl{font-size:12px;color:#5f5e5a}
+.sim-inline{display:flex;align-items:center;gap:8px}
+input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:#d3d1c7;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#378ADD;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.sim-val{font-size:13px;color:#1a1a18;font-weight:500;min-width:36px}
+.sim-res{background:#f1efe8;border-radius:8px;padding:12px 14px;margin-top:8px;font-size:13px}
+.avatar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:1.5rem}
+.avatar-card{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:12px;padding:1rem 1.25rem}
+.avatar-letter{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;margin-bottom:10px}
+.av-a{background:#E6F1FB;color:#185FA5}.av-b{background:#EAF3DE;color:#3B6D11}.av-c{background:#FAEEDA;color:#854F0B}
+.avatar-card h3{font-size:13px;font-weight:500;color:#1a1a18;margin-bottom:8px}
+.avatar-card ul{list-style:none;padding:0}
+.avatar-card ul li{font-size:12px;color:#5f5e5a;padding:3px 0;border-bottom:.5px solid rgba(0,0,0,.05);line-height:1.4}
+.avatar-card ul li:last-child{border-bottom:none}
+.call-card{background:#fff;border:.5px solid rgba(0,0,0,.08);border-radius:12px;padding:1rem 1.25rem;margin-bottom:14px}
+.call-header{margin-bottom:12px;padding-bottom:10px;border-bottom:.5px solid rgba(0,0,0,.06)}
+.call-name{font-size:14px;font-weight:500;color:#1a1a18}
+.call-meta{font-size:12px;color:#888780;margin-top:2px}
+.call-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.tag{font-size:10px;padding:2px 8px;border-radius:12px;font-weight:500}
+.tag-g{background:#EAF3DE;color:#3B6D11}.tag-r{background:#FCEBEB;color:#A32D2D}.tag-w{background:#FAEEDA;color:#854F0B}.tag-b{background:#E6F1FB;color:#185FA5}.tag-gr{background:#F1EFE8;color:#444441}
+.qual-check{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.qc-item{display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#5f5e5a;line-height:1.4}
+.qc-ok{color:#3B6D11;font-size:13px;flex-shrink:0}.qc-no{color:#A32D2D;font-size:13px;flex-shrink:0}.qc-mid{color:#854F0B;font-size:13px;flex-shrink:0}
+.comp-table{width:100%;font-size:12px;border-collapse:collapse}
+.comp-table th{color:#888780;font-weight:500;padding:8px 10px;border-bottom:.5px solid rgba(0,0,0,.1);text-align:left;font-size:11px}
+.comp-table td{padding:8px 10px;border-bottom:.5px solid rgba(0,0,0,.06);color:#1a1a18;vertical-align:top}
+.comp-table tr:last-child td{border-bottom:none}
+.ok-c{color:#3B6D11}.no-c{color:#A32D2D}.mid-c{color:#854F0B}
+.stamp{font-size:11px;color:#888780;text-align:center;margin-top:2rem;padding-top:1rem;border-top:.5px solid rgba(0,0,0,.06)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="site-header">
+  <div>
+    <h1>Monteur Pro — Dashboard Challenge</h1>
+    <p>Opt-ins Kombineo AccelMars · 7 closers · 2 setters actifs · Data au 24/03</p>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+    <span class="bdg bdg-r">–9 ventes pour l'objectif</span>
+    <span class="bdg bdg-w">Encaissé : –20k€ vs coms</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('challenge')" id="btn-challenge">Challenge</button>
+  <button class="tab-btn" onclick="showTab('analyse')" id="btn-analyse">Analyse leads</button>
+</div>
+
+<!-- TAB 1 -->
+<div id="tab-challenge" class="tab-content active">
+<div class="sec">Pipeline global — opt-in → vente</div>
+<div class="pipeline">
+  <div class="ps"><div class="pb pb-b"><div class="pn pn-b">2 478</div><div class="pl">Opt-ins totaux</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb pb-w"><div class="pn pn-w">753</div><div class="pl">Leads appelés</div><div class="pr">30,4% du pipe</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb"><div class="pn">74</div><div class="pl">RDV setting pris</div><div class="pr">9,8% des appelés</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb"><div class="pn">146</div><div class="pl">RDV closing pris</div><div class="pr">Challenge</div></div></div>
+  <div class="arr">›</div>
+  <div class="ps"><div class="pb pb-g"><div class="pn pn-g">12</div><div class="pl">Ventes totales</div><div class="pr">6,6% / RDV actifs</div></div></div>
+</div>
+
+<div class="sec">Objectif ventes (minimum 21)</div>
+<div class="tgt">
+  <div class="tgt-h">
+    <span class="tgt-l">Progression vers l'objectif</span>
+    <span class="tgt-n"><strong>12</strong> / 21 ventes — il manque <strong style="color:#A32D2D">9</strong></span>
+  </div>
+  <div class="ptr"><div class="pf" style="width:57.1%">12 ventes</div></div>
+</div>
+
+<div class="mg">
+  <div class="mc"><div class="ml">Opt-ins totaux</div><div class="mv">2 478</div><div class="ms">Source Kombineo</div></div>
+  <div class="mc"><div class="ml">Leads non appelés</div><div class="mv mv-r">1 177</div><div class="ms">47,5% du pipe intact</div></div>
+  <div class="mc"><div class="ml">Ventes confirmées</div><div class="mv mv-g">12</div><div class="ms">Kombineo corrigé</div></div>
+  <div class="mc"><div class="ml">Taux RDV → vente</div><div class="mv">6,6%</div><div class="ms">12 / 181 actifs</div></div>
+  <div class="mc"><div class="ml">RDV à venir (setting)</div><div class="mv mv-w">18</div><div class="ms">+ 71 FUP en cours</div></div>
+  <div class="mc"><div class="ml">Leads clôturés setting</div><div class="mv">497</div><div class="ms">Sur 753 appelés</div></div>
+</div>
+
+<div class="sec">No show — alerte</div>
+<div class="noshow-box">
+  <h3>No show : 53 RDV perdus après prise en charge</h3>
+  <div class="stat-grid">
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#A32D2D">25</div><div style="font-size:11px;color:#791F1F;margin-top:3px">No show setting</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#A32D2D">28</div><div style="font-size:11px;color:#791F1F;margin-top:3px">No show closing</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#A32D2D">53</div><div style="font-size:11px;color:#791F1F;margin-top:3px">Total no show</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#A32D2D">29%</div><div style="font-size:11px;color:#791F1F;margin-top:3px">Du total RDV (181)</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Détail closing (146 RDV challenge)</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Résultats RDV closing <span class="bdg bdg-g">12 ventes</span></div>
+    <div class="br"><div class="bl">Ventes</div><div class="bt"><div class="bf bf-g" style="width:8.2%">12</div></div><div class="bv">12</div></div>
+    <div class="br"><div class="bl">Lost – money</div><div class="bt"><div class="bf bf-r" style="width:19.2%">28</div></div><div class="bv">28</div></div>
+    <div class="br"><div class="bl">No show</div><div class="bt"><div class="bf bf-a" style="width:19.2%">28</div></div><div class="bv">28</div></div>
+    <div class="br"><div class="bl">Annulation</div><div class="bt"><div class="bf bf-a" style="width:17.8%">26</div></div><div class="bv">26</div></div>
+    <div class="br"><div class="bl">Lost – no objection</div><div class="bt"><div class="bf bf-gr" style="width:13.7%">20</div></div><div class="bv">20</div></div>
+    <div class="br"><div class="bl">Lost – need to think</div><div class="bt"><div class="bf bf-gr" style="width:6.8%">10</div></div><div class="bv">10</div></div>
+    <div class="br"><div class="bl">Lost – fear</div><div class="bt"><div class="bf bf-gr" style="width:3.4%">5</div></div><div class="bv">5</div></div>
+    <div class="br"><div class="bl">Lost – timing</div><div class="bt"><div class="bf bf-gr" style="width:2.1%">3</div></div><div class="bv">3</div></div>
+    <div class="br"><div class="bl">Lost – partner</div><div class="bt"><div class="bf bf-gr" style="width:1.4%">2</div></div><div class="bv">2</div></div>
+    <div class="br"><div class="bl">Reprogrammé</div><div class="bt"><div class="bf bf-b" style="width:4.1%">6</div></div><div class="bv">6</div></div>
+    <div class="br"><div class="bl">Non qualifié</div><div class="bt"><div class="bf bf-gr" style="width:2.7%">4</div></div><div class="bv">4</div></div>
+    <div class="br"><div class="bl">Annulés Calendly</div><div class="bt"><div class="bf bf-a" style="width:17.1%">25</div></div><div class="bv">25</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Lost money – profils disqualifiés <span class="bdg bdg-r">28 lost</span></div>
+    <div class="br"><div class="bl">Endetté</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Moins de 80€/compte</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Pas d'épargne</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Vit dans sa voiture</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">Gros découvert</div><div class="bt"><div class="bf bf-r" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div class="br"><div class="bl">N'a pas l'argent</div><div class="bt"><div class="bf bf-a" style="width:50%"></div></div><div class="bv">–</div></div>
+    <div style="margin-top:14px;font-size:12px;color:#5f5e5a">Lost no objection – 20 leads</div>
+    <div style="margin-top:8px">
+      <div class="br"><div class="bl">Veut faire l'immo</div><div class="bt"><div class="bf bf-gr" style="width:40%"></div></div><div class="bv">–</div></div>
+      <div class="br"><div class="bl">Pense que c'est gratuit</div><div class="bt"><div class="bf bf-gr" style="width:40%"></div></div><div class="bv">–</div></div>
+      <div class="br"><div class="bl">Ne veut pas se former</div><div class="bt"><div class="bf bf-gr" style="width:40%"></div></div><div class="bv">–</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Détail setting (753 leads appelés)</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Résultats appels setting <span class="bdg bdg-w">753 leads</span></div>
+    <div class="br"><div class="bl">RDV refusé</div><div class="bt"><div class="bf bf-r" style="width:52.5%">395</div></div><div class="bv">395</div></div>
+    <div class="br"><div class="bl">Faux numéro</div><div class="bt"><div class="bf bf-gr" style="width:8.4%">63</div></div><div class="bv">63</div></div>
+    <div class="br"><div class="bl">Hors cible</div><div class="bt"><div class="bf bf-gr" style="width:5.2%">39</div></div><div class="bv">39</div></div>
+    <div class="br"><div class="bl">RDV pris</div><div class="bt"><div class="bf bf-t" style="width:9.8%">74</div></div><div class="bv">74</div></div>
+    <div class="br"><div class="bl">Leads restants</div><div class="bt"><div class="bf bf-b" style="width:100%">497 clôturés / 1 177 restants</div></div><div class="bv">–</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">RDV setting → clôturés closers <span class="bdg bdg-w">74 RDV</span></div>
+    <div class="br"><div class="bl">Ventes</div><div class="bt"><div class="bf bf-g" style="width:1%"></div></div><div class="bv">0</div></div>
+    <div class="br"><div class="bl">No show</div><div class="bt"><div class="bf bf-r" style="width:33.8%">25</div></div><div class="bv">25</div></div>
+    <div class="br"><div class="bl">Annulés</div><div class="bt"><div class="bf bf-a" style="width:16.2%">12</div></div><div class="bv">12</div></div>
+    <div class="br"><div class="bl">Reprogrammé</div><div class="bt"><div class="bf bf-b" style="width:13.5%">10</div></div><div class="bv">10</div></div>
+    <div class="br"><div class="bl">Faux numéro</div><div class="bt"><div class="bf bf-gr" style="width:8.1%">6</div></div><div class="bv">6</div></div>
+    <div class="br"><div class="bl">Non qualifié / hors cible</div><div class="bt"><div class="bf bf-gr" style="width:5.4%">8</div></div><div class="bv">8</div></div>
+    <div class="br"><div class="bl">Lost – money/partner/fear</div><div class="bt"><div class="bf bf-r" style="width:9.5%">9</div></div><div class="bv">9</div></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:.5px solid rgba(0,0,0,.08);font-size:12px;color:#A32D2D;font-weight:500">0 vente sur 74 RDV setting clôturés</div>
+  </div>
+</div>
+
+<div class="sec">Qualité des RDV setting à venir (18 planifiés)</div>
+<div class="qual-box">
+  <h3>18 RDV à venir — tous issus du setting</h3>
+  <p>La qualité des RDV setting clôturés à date (0 vente, 25 no show, multiples annulations) laisse anticiper un rendement faible sur ces 18 prochains RDV si la dynamique ne change pas.</p>
+  <div class="stat-grid" style="margin-top:10px">
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#633806">18</div><div style="font-size:11px;color:#854F0B;margin-top:3px">RDV planifiés</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#633806">71</div><div style="font-size:11px;color:#854F0B;margin-top:3px">FUP en cours</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#A32D2D">0%</div><div style="font-size:11px;color:#791F1F;margin-top:3px">Taux vente setting</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:500;color:#A32D2D">34%</div><div style="font-size:11px;color:#791F1F;margin-top:3px">No show setting</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Alertes</div>
+<div class="alert al-r"><div class="al-t">1 177 leads jamais appelés — mais la qualité du pipe est à questionner</div>30,4% du pipe a été contacté. Les setters sont en moyenne à plus de 80% de non-répondants par jour, et les RDV setting affichent 34% de no show et 0 vente à date. Avant de mobiliser de l'énergie sur les 1 177 leads restants, la vraie question est : est-ce que ce pipe a encore assez de valeur pour justifier l'investissement humain nécessaire ?</div>
+<div class="alert al-w"><div class="al-t">Règle non respectée par les setters (6 au total)</div>Sur les 6 setters engagés, un seul a potentiellement compris la consigne — mais raccrochait dès le décroché des leads. Les 5 autres n'ont pas couvert leur pipe.</div>
+<div class="alert al-b"><div class="al-t">Closing : 6 ventes à haut potentiel identifiées par les closers</div>18 RDV planifiés + 16 reprogrammés = 34 opportunités solides à travailler en priorité. Les closers ont identifié <strong>6 ventes à fort potentiel</strong> — c'est là que l'énergie doit se concentrer. ⚠ Attention sur les 71 FUP en cours : logistique financière compliquée, non-répondants — peu de chance de closing rapide, fup long terme à nurturer.</div>
+
+<div class="sep"></div>
+<div class="sec">Simulateur — ventes potentielles sur pipe restant</div>
+<div class="card">
+  <div class="ct">Estimation réaliste avec 2 setters</div>
+  <div class="sim-row">
+    <div class="sim-group">
+      <div class="sim-lbl">Leads restants à appeler</div>
+      <div class="sim-inline"><input type="range" min="0" max="1177" value="1177" step="1" id="sL" style="width:160px"><span class="sim-val" id="sLv">1 177</span></div>
+    </div>
+    <div class="sim-group">
+      <div class="sim-lbl">Taux prise de RDV (max réaliste 5%)</div>
+      <div class="sim-inline"><input type="range" min="1" max="5" value="3" step="1" id="sR" style="width:130px"><span class="sim-val" id="sRv">3%</span></div>
+    </div>
+    <div class="sim-group">
+      <div class="sim-lbl">Taux de closing (%)</div>
+      <div class="sim-inline"><input type="range" min="1" max="20" value="6" step="1" id="sC" style="width:120px"><span class="sim-val" id="sCv">6%</span></div>
+    </div>
+  </div>
+  <div class="sim-res">
+    <span style="color:#5f5e5a;font-size:12px">Estimation : </span>
+    <span id="sOut" style="font-size:17px;font-weight:500;color:#1a1a18"></span>
+    <span id="sTgt" style="font-size:12px;margin-left:8px"></span>
+  </div>
+</div>
+</div>
+
+<!-- TAB 2 -->
+
+<!-- TAB 2 : ANALYSE LEADS -->
+
+<!-- TAB 2 : ANALYSE LEADS -->
+<div id="tab-analyse" class="tab-content">
+
+<div class="sec">Vue d'ensemble — 51 appels lus intégralement</div>
+<div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
+  <div class="mc"><div class="ml">Appels analysés</div><div class="mv">51</div><div class="ms">Transcripts complets</div></div>
+  <div class="mc"><div class="ml">Ventes identifiées</div><div class="mv mv-g">12</div><div class="ms">Sur les appels analysés</div></div>
+  <div class="mc"><div class="ml">Non vendus / disqualifiés</div><div class="mv mv-r">7</div><div class="ms">13% des appels</div></div>
+  <div class="mc"><div class="ml">FUP en cours</div><div class="mv mv-w">32</div><div class="ms">63% des appels</div></div>
+  <div class="mc"><div class="ml">Durée moy. globale</div><div class="mv">48 min</div><div class="ms">Sur 32 avec durée connue</div></div>
+  <div class="mc"><div class="ml">Connaissaient MP avant</div><div class="mv">13%</div><div class="ms">7 sur 51 leads</div></div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Durée des appels — corrélation directe avec les ventes</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Durée moyenne par statut</div>
+    <div style="display:flex;gap:16px;align-items:flex-end;margin:14px 0 8px">
+      <div style="text-align:center"><div style="background:#C0DD97;border-radius:4px 4px 0 0;width:56px;height:162px;margin:0 auto"></div><div style="font-size:20px;font-weight:500;color:#3B6D11;margin-top:6px">81 min</div><div style="font-size:11px;color:#5f5e5a">Ventes</div></div>
+      <div style="text-align:center"><div style="background:#F7C1C1;border-radius:4px 4px 0 0;width:56px;height:62px;margin:0 auto"></div><div style="font-size:20px;font-weight:500;color:#A32D2D;margin-top:6px">31 min</div><div style="font-size:11px;color:#5f5e5a">Non vendus</div></div>
+      <div style="text-align:center"><div style="background:#FAC775;border-radius:4px 4px 0 0;width:56px;height:76px;margin:0 auto"></div><div style="font-size:20px;font-weight:500;color:#633806;margin-top:6px">38 min</div><div style="font-size:11px;color:#5f5e5a">FUP</div></div>
+      <div style="text-align:center"><div style="background:#D3D1C7;border-radius:4px 4px 0 0;width:56px;height:96px;margin:0 auto"></div><div style="font-size:20px;font-weight:500;color:#444441;margin-top:6px">48 min</div><div style="font-size:11px;color:#5f5e5a">Moyenne</div></div>
+    </div>
+    <div style="font-size:12px;color:#5f5e5a;line-height:1.6;padding-top:8px;border-top:.5px solid rgba(0,0,0,.06)">Les calls qui closent durent en moyenne <strong>50 min de plus</strong> que les non-vendus. Un appel long = qualification poussée + projection + gestion objection financière.</div>
+  </div>
+  <div class="card">
+    <div class="ct">Ce qu'on voit de + dans les appels longs</div>
+    <div style="font-size:12px;color:#1a1a18;line-height:1.9">
+      <strong>Appels courts (&lt;35 min) :</strong> qualification rapide, lead non qualifié financièrement ou timing mauvais. Peu de depth dans la découverte.<br><br>
+      <strong>Appels moyens (35–55 min) :</strong> qualification complète, souvent FUP. La partie financière est abordée mais pas résolue.<br><br>
+      <strong>Appels longs (55+ min) :</strong> découverte profonde de la douleur, projection dans l'avenir, montage de la solution financière (mensualités, famille), signature contrat + onboarding. Les 25–30 dernières minutes sont souvent administratives (contrat Stripe, accès plateforme).
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Connaissance de Monteur Pro avant le live</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Niveau de connaissance préalable</div>
+    <div class="br"><div class="bl">Découverte via pub/live</div><div class="bt"><div class="bf bf-b" style="width:86%">44</div></div><div class="bv">86%</div></div>
+    <div class="br"><div class="bl">Connaissaient MP avant</div><div class="bt"><div class="bf bf-g" style="width:14%">7</div></div><div class="bv">14%</div></div>
+    <div style="margin-top:10px;font-size:12px;color:#5f5e5a;line-height:1.6">Les 7 qui connaissaient : Pierre-Louis (déjà eu RDV), Kenza (2 ans via Pablo Z), Benjamin (ami monteur), Louis (connaissait Paul), Floor, Gouenel, Bérangère. Trust plus élevé dès le départ.</div>
+  </div>
+  <div class="card">
+    <div class="ct">Impact des 3 lives sur la décision</div>
+    <div style="font-size:12px;color:#1a1a18;line-height:1.9">
+      Plusieurs leads mentionnent les témoignages (Louis, Mathias) comme déclencheurs. Ceux qui ont fait les 3 soirs complets closent mieux.<br><br>
+      <strong>Règle observée :</strong> plus un lead a consommé de contenu avant le call (3 lives complets > 2 > 1 > replay partiel), plus il est chaud et plus l'appel est court pour conclure.
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Objectifs déclarés en call</div>
+<div class="card" style="margin-bottom:1.5rem">
+  <div class="br"><div class="bl">Reconversion FT</div><div class="bt"><div class="bf bf-g" style="width:78%">40</div></div><div class="bv">78%</div></div>
+  <div class="br"><div class="bl">Complément de revenu</div><div class="bt"><div class="bf bf-b" style="width:22%">11</div></div><div class="bv">22%</div></div>
+  <div class="br"><div class="bl">Montée en compétences</div><div class="bt"><div class="bf bf-gr" style="width:14%">7</div></div><div class="bv">14%</div></div>
+  <div style="margin-top:10px;font-size:12px;color:#5f5e5a;line-height:1.6">La reconversion FT est massivement dominante — correspond parfaitement au positionnement MP. Plusieurs leads qui déclarent "complément" veulent en réalité une reconversion complète mais n'osent pas le dire d'emblée.</div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Situation financière réelle des leads</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Répartition financière réelle</div>
+    <div class="br"><div class="bl">Peut investir (OK)</div><div class="bt"><div class="bf bf-g" style="width:18%">9</div></div><div class="bv">18%</div></div>
+    <div class="br"><div class="bl">Limite → mensualités OK</div><div class="bt"><div class="bf bf-a" style="width:10%">5</div></div><div class="bv">10%</div></div>
+    <div class="br"><div class="bl">Difficile (doit trouver)</div><div class="bt"><div class="bf bf-a" style="width:29%">15</div></div><div class="bv">29%</div></div>
+    <div class="br"><div class="bl">Bloquant structurel</div><div class="bt"><div class="bf bf-r" style="width:12%">6</div></div><div class="bv">12%</div></div>
+    <div class="br"><div class="bl">Non détecté</div><div class="bt"><div class="bf bf-gr" style="width:31%">16</div></div><div class="bv">31%</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Lecture par catégorie</div>
+    <div style="font-size:12px;color:#1a1a18;line-height:1.9">
+      <strong>OK (18%) :</strong> CDI avec revenus stables, entrepreneur, congé formation — pas de frein.<br><br>
+      <strong>Limite → mensualités (10%) :</strong> ont l'argent mais trop grande part des économies. Solution 3x ou 6x. Omar, Benjamin, François — ces leads closent.<br><br>
+      <strong>Difficile (29%) :</strong> doivent trouver une solution (famille, job saisonnier, économies). FUP à 1–3 mois. Walter, Théo, Leo, Kenza.<br><br>
+      <strong>Bloquant structurel (12%) :</strong> Pierre-Louis, Jocya, Natty, Laurent Belgique, Claire, Marie-Dominique. Le closing ne peut rien faire. Nurturing long terme uniquement.
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Douleurs — regroupement par catégories</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Douleurs les plus fréquentes</div>
+    <div class="br"><div class="bl">Passion créative non exploitée</div><div class="bt"><div class="bf bf-p" style="width:59%">30</div></div><div class="bv">59%</div></div>
+    <div class="br"><div class="bl">Envie de liberté / indépendance</div><div class="bt"><div class="bf bf-b" style="width:47%">24</div></div><div class="bv">47%</div></div>
+    <div class="br"><div class="bl">Travail pénible / épuisant</div><div class="bt"><div class="bf bf-r" style="width:31%">16</div></div><div class="bv">31%</div></div>
+    <div class="br"><div class="bl">CDI / salariat étouffant</div><div class="bt"><div class="bf bf-a" style="width:27%">14</div></div><div class="bv">27%</div></div>
+    <div class="br"><div class="bl">Chômage / reconversion urgente</div><div class="bt"><div class="bf bf-r" style="width:16%">8</div></div><div class="bv">16%</div></div>
+    <div class="br"><div class="bl">Présentiel impossible (enfants)</div><div class="bt"><div class="bf bf-gr" style="width:8%">4</div></div><div class="bv">8%</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">4 profils de douleur dominants</div>
+    <div style="font-size:12px;color:#1a1a18;line-height:1.9">
+      <strong>1 — Créatif étouffé :</strong> toujours aimé monter, créer. Son job n'a rien à voir. Douleur = ne pas faire ce qu'il aime.<br><br>
+      <strong>2 — Salarié en rupture :</strong> CDI, intérim, usine. Hiérarchie, horaires contraints. Douleur = absence de liberté.<br><br>
+      <strong>3 — Reconvertisseur urgent :</strong> chômage, fin de droits. Besoin de revenus rapidement. Urgence = moteur ou frein selon la situation financière.<br><br>
+      <strong>4 — Parent contraint :</strong> présentiel impossible avec enfants. Cherche activité 100% distanciel. Douleur = organisation imposée par la vie.
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Blocages principaux</div>
+<div class="card" style="margin-bottom:1.5rem">
+  <div class="br"><div class="bl">Hésitation / besoin de temps</div><div class="bt"><div class="bf bf-a" style="width:61%">31</div></div><div class="bv">61%</div></div>
+  <div class="br"><div class="bl">Financier (toutes formes)</div><div class="bt"><div class="bf bf-r" style="width:55%">28</div></div><div class="bv">55%</div></div>
+  <div class="br"><div class="bl">Peur de ne pas trouver clients</div><div class="bt"><div class="bf bf-b" style="width:37%">19</div></div><div class="bv">37%</div></div>
+  <div class="br"><div class="bl">Doute sur ses compétences</div><div class="bt"><div class="bf bf-gr" style="width:27%">14</div></div><div class="bv">27%</div></div>
+  <div class="br"><div class="bl">Mauvais timing</div><div class="bt"><div class="bf bf-gr" style="width:27%">14</div></div><div class="bv">27%</div></div>
+  <div class="br"><div class="bl">Peur du scam / crédibilité MP</div><div class="bt"><div class="bf bf-gr" style="width:8%">4</div></div><div class="bv">8%</div></div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">4 avatars identifiés en call</div>
+<div class="avatar-grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+  <div class="avatar-card">
+    <div class="avatar-letter av-a">A</div>
+    <h3>Avatar A — Rupture urgente</h3>
+    <ul>
+      <li><strong>21 leads (41%)</strong></li>
+      <li>Douleur forte, veut partir maintenant</li>
+      <li>Usine, CDI étouffant, chômage actif</li>
+      <li>Passion créative souvent ancienne</li>
+      <li>Financier parfois limite mais motivation compense</li>
+      <li style="color:#3B6D11">✓ Meilleur profil pour closer</li>
+      <li style="color:#5f5e5a">Omar, Camille Lyon, Alexandre Londres, Célia+Emile, T30 Toulouse</li>
+    </ul>
+  </div>
+  <div class="avatar-card">
+    <div class="avatar-letter av-b">B</div>
+    <h3>Avatar B — Rationnel prudent</h3>
+    <ul>
+      <li><strong>17 leads (33%)</strong></li>
+      <li>Veut des preuves, réfléchit avant</li>
+      <li>Souvent salarié avec revenus stables</li>
+      <li>Besoin de maturation (FUP J+2 à J+7)</li>
+      <li style="color:#854F0B">~ Closable avec bon FUP rapide</li>
+      <li style="color:#5f5e5a">Pierre-Louis, Michael Belgique, Matthias, Kenza, Noumia</li>
+    </ul>
+  </div>
+  <div class="avatar-card">
+    <div class="avatar-letter" style="background:#EAF3DE;color:#3B6D11">C</div>
+    <h3>Avatar C — Déjà dans le game</h3>
+    <ul>
+      <li><strong>7 leads (14%)</strong></li>
+      <li>Déjà monteur ou créatif professionnel</li>
+      <li>Cherche structuration / méthode clients</li>
+      <li>Compare les offres, trust plus difficile</li>
+      <li style="color:#854F0B">~ Closable si différenciation claire</li>
+      <li style="color:#5f5e5a">Hugues (freelance vidéo), William (entrepreneur), Louis, Floor</li>
+    </ul>
+  </div>
+  <div class="avatar-card" style="border-color:#F09595">
+    <div class="avatar-letter" style="background:#FCEBEB;color:#A32D2D">✗</div>
+    <h3>Mauvais lead</h3>
+    <ul>
+      <li><strong>6 leads (12%)</strong></li>
+      <li>Financier structurellement bloquant</li>
+      <li>Ou objectif incompatible avec MP</li>
+      <li>Ou trop tôt dans la réflexion</li>
+      <li style="color:#A32D2D">✗ Le closing ne peut rien faire</li>
+      <li style="color:#5f5e5a">Jocya (insolvable), Lila (photographe mariage), Laurent Belgique, Natty Genève, Badi (étudiant pas mûr)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Bon lead vs mauvais lead — critères clés</div>
+<div class="two">
+  <div class="card">
+    <div class="ct">Le bon lead <span class="bdg bdg-g">88% des appels</span></div>
+    <div style="font-size:12px;color:#1a1a18;line-height:1.9">
+      ✓ Douleur claire et verbalisée — sait pourquoi il veut partir<br>
+      ✓ Désir de changement maintenant (pas "dans 6 mois")<br>
+      ✓ Passion créative réelle — le montage n'est pas juste un plan B<br>
+      ✓ A regardé au moins 2 lives — connait la promesse MP<br>
+      ✓ Répond clairement aux questions financières<br>
+      ✓ Mindset éducable — comprend que c'est du travail<br>
+      ~ Financier pas parfait mais a une solution (famille, mensualités)
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">Le mauvais lead <span class="bdg bdg-r">12% des appels</span></div>
+    <div style="font-size:12px;color:#1a1a18;line-height:1.9">
+      ✗ Financier structurellement bloquant sans solution visible<br>
+      ✗ Objectif incompatible (montée en compétences sur un métier déjà exercé)<br>
+      ✗ Trop tôt dans la réflexion — "je viens voir", curiosité pure<br>
+      ✗ Motivation externe (pour son fils, pour quelqu'un d'autre)<br>
+      ✗ Pas de douleur réelle — situation OK, juste "pourquoi pas"<br>
+      ✗ N'a pas vu les lives — ne connait pas l'offre<br>
+      → Nurturing long terme, pas de closing direct
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+<div class="sec">Déclaratif Calendly vs réalité des calls</div>
+<div class="card" style="margin-bottom:1.5rem">
+  <div style="overflow-x:auto">
+    <table class="comp-table">
+      <thead><tr><th>Critère</th><th>Déclaratif Calendly (182 leads)</th><th>Réalité calls (51 analysés)</th><th>Écart</th></tr></thead>
+      <tbody>
+        <tr><td>Prêts à investir</td><td style="color:#3B6D11">89% (Oui)</td><td style="color:#854F0B">~28% (OK + limite)</td><td style="color:#A32D2D">Surestimé massivement</td></tr>
+        <tr><td>Reconversion FT</td><td>58% (Freelance)</td><td style="color:#3B6D11">78%</td><td>Sous-estimé (déclarent complément mais veulent FT)</td></tr>
+        <tr><td>Temps dispo (+3h/j)</td><td>32%</td><td>Cohérent</td><td>OK</td></tr>
+        <tr><td>Blocage compétences</td><td>31%</td><td>27%</td><td>Cohérent</td></tr>
+        <tr><td>Depuis +6 mois</td><td>43%</td><td>Majorité oui — même "nouveaux" ont une passion ancienne</td><td>Cohérent</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px;font-size:12px;color:#A32D2D;font-weight:500">Point critique : "Oui prêt à investir" au questionnaire ne signifie rien. En réalité seulement ~28% peuvent investir directement ou avec mensualités. C'est l'objection principale en call.</div>
+</div>
+
+<div class="sep"></div>
+<div class="alert al-g"><div class="al-t">Ce que la data prouve sur la qualité du travail fourni</div>51 appels analysés. 12 ventes identifiées. Les closers ont fait des appels longs (81 min en moyenne sur les ventes), bien géré les objections financières via mensualités, fourni du conseil même sans vente (Pierre-Louis — appel exemplaire de qualité). La structure des calls est solide et reproductible. Le questionnaire Calendly est bien structuré. Le problème principal est externe à la qualité du closing : capacité financière réelle du marché et exécution du setting.</div>
+
+</div><!-- end tab-analyse -->
+<div class="stamp">Monteur Pro · Données au 24 mars 2026 · Analyse basée sur 51 appels lus intégralement</div>
+</div>
+
+<script>
+function showTab(n){
+  document.querySelectorAll('.tab-content').forEach(function(e){e.classList.remove('active')});
+  document.querySelectorAll('.tab-btn').forEach(function(e){e.classList.remove('active')});
+  document.getElementById('tab-'+n).classList.add('active');
+  document.getElementById('btn-'+n).classList.add('active');
+}
+function upd(){
+  var l=+document.getElementById('sL').value;
+  var r=+document.getElementById('sR').value/100;
+  var c=+document.getElementById('sC').value/100;
+  document.getElementById('sLv').textContent=l.toLocaleString('fr-FR');
+  document.getElementById('sRv').textContent=Math.round(r*100)+'%';
+  document.getElementById('sCv').textContent=Math.round(c*100)+'%';
+  var rdv=Math.round(l*r);
+  var v=Math.round(rdv*c);
+  document.getElementById('sOut').textContent=v+' ventes potentielles ('+rdv+' RDV)';
+  var tot=v+12;var diff=21-tot;
+  var el=document.getElementById('sTgt');
+  if(diff<=0){el.textContent='→ Objectif 21 atteint ! ('+tot+' total)';el.style.color='#3B6D11';}
+  else{el.textContent='→ Total : '+tot+' ventes (encore '+diff+' à chercher)';el.style.color='#A32D2D';}
+}
+document.getElementById('sL').addEventListener('input',upd);
+document.getElementById('sR').addEventListener('input',upd);
+document.getElementById('sC').addEventListener('input',upd);
+upd();
+</script>
+</body>
+</html>
